@@ -4,10 +4,23 @@ import pygame
 
 # Global vars
 block_size = 20
-shape_l1 = []
+screen_x = 400
+screen_y = 500
+fps = 30
+shape_perm = [[]]
+
+def draw_shape(x, y):
+    shape_l1 = []
+    shape_l1.append(pygame.Rect(x, y, 20, 20))
+    shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
+    shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
+    shape_l1.append(pygame.Rect(x + 20, y-40, 20, 20))
+
+    return shape_l1
+
 def draw_grid(screen):
-    for x in range(400):
-        for y in range(500):
+    for x in range(screen_x):
+        for y in range(screen_y):
             rect = pygame.Rect(x*block_size, y*block_size,
                                block_size, block_size)
             pygame.draw.rect(screen, (80, 80, 80), rect, 1)
@@ -17,16 +30,15 @@ def draw_grid(screen):
 
 def game_loop():
     pygame.init()
-    screen = pygame.display.set_mode([400, 500])
+    screen = pygame.display.set_mode([screen_x, screen_y])
     running = True
 
     orange = (240, 120, 40)
 
-   
+  
     lead_x = 220
     lead_y = 0
     clock = pygame.time.Clock()
-    #lead_x_change = 0
 
     while running:
         for event in pygame.event.get():
@@ -34,29 +46,39 @@ def game_loop():
                 running = False
 
             if event.type == pygame.KEYDOWN:
-            	if event.key == pygame.K_LEFT:
-            		#lead_x_change = -20
-            		lead_x -= 20
-            	if event.key == pygame.K_RIGHT:
-            		#lead_x_change = 20
-            		lead_x += 20
-        
-        #lead_x += lead_x_change
+                if event.key == pygame.K_LEFT:
+                    lead_x -= 20
 
+                if event.key == pygame.K_RIGHT:
+                    lead_x += 20
+        
+
+        shape = draw_shape(lead_x, lead_y)
         #draw_grid(screen)
         screen.fill((0, 0, 0))
-       	pygame.draw.rect(screen, orange, [lead_x, lead_y, 20, 20 ])
+           
+        for i in range(4):
+            pygame.draw.rect(screen, orange, shape[i])
 
-       	if lead_y < 480:
+        if lead_y < screen_y - 20:
             lead_y += 20
-       
+        else:
+            print("end")
+            shape_perm.append(shape)
+            lead_y = 0
+            lead_x = 220
+
+          
+        #print(shape)  
+        #print(shape_perm)
+        
 
         pygame.display.flip()
-        clock.tick(5)
+        clock.tick(fps)
 
 
 
 def main():
-	game_loop()
+    game_loop()
 
 main()
