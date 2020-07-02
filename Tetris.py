@@ -4,7 +4,7 @@ import random
 
 # Global vars
 block_size = 20
-fps = 10
+fps = 3
 
 screen_x = 200
 screen_y = 400
@@ -19,7 +19,7 @@ blue = (0, 25, 250)
 def shape_picker():
     return random.randint(1, 4)
 
-def draw_shape(x, y, current_shape):
+def draw_shape(x, y, current_shape, rotation):
     shape_l1 = []
     global color
     # W shape
@@ -32,11 +32,30 @@ def draw_shape(x, y, current_shape):
     
     # L shape 1
     if (current_shape == 2):
-        color = orange
-        shape_l1.append(pygame.Rect(x, y, 20, 20))
-        shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
-        shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
-        shape_l1.append(pygame.Rect(x + 20, y-40, 20, 20))
+        if (rotation == 0):
+            color = orange
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y-40, 20, 20))
+        if (rotation == 1):
+            color = orange
+            shape_l1.append(pygame.Rect(x, y-40, 20, 20))
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x + 40, y-20, 20, 20))
+        if (rotation == 2):
+            color = orange
+            shape_l1.append(pygame.Rect(x+40, y-40, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-40, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
+        if (rotation == 3):
+            color = orange
+            shape_l1.append(pygame.Rect(x+40, y, 20, 20))
+            shape_l1.append(pygame.Rect(x+40, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
     
     # I shape
     if (current_shape == 3):
@@ -147,15 +166,15 @@ def game_loop():
     pygame.init()
     screen = pygame.display.set_mode([screen_x, screen_y])
     running = True
-    current_shape = random.randint(1,4)
-
+    current_shape =2#random.randint(1,4)
+    rotation = 0
    
     lead_x = 80
     lead_y = 0
     clock = pygame.time.Clock()
 
     while running:
-        shape = draw_shape(lead_x, lead_y, current_shape)
+        shape = draw_shape(lead_x, lead_y, current_shape, rotation)
         coll_check = collision_check(shape, shape_perm)
 
         for event in pygame.event.get():
@@ -168,7 +187,18 @@ def game_loop():
 
                 if (event.key == pygame.K_RIGHT) and (not coll_check[2]):
                     lead_x += 20
-        
+            if event.type == pygame.KEYDOWN:
+                if (event.key == pygame.K_UP):
+                    if (rotation == 3):
+                        rotation == 0
+                    else:
+                        rotation+=1
+            if event.type == pygame.KEYDOWN:
+                if (event.key == pygame.K_DOWN):
+                    if (rotation == 0):
+                        rotation == 3
+                    else:
+                        rotation-=1
 
         
         #draw_grid(screen)
@@ -190,7 +220,7 @@ def game_loop():
 
             lead_y = 0
             lead_x = 80
-            current_shape = shape_picker()
+            current_shape = 2#shape_picker()
 
         if lead_y < screen_y - 20:
             lead_y += 20
@@ -203,7 +233,7 @@ def game_loop():
 
             lead_y = 0
             lead_x = 80
-            current_shape = shape_picker()
+            current_shape = 2#shape_picker()
 
 
         
