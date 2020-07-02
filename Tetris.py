@@ -55,16 +55,18 @@ def draw_shape(x, y, current_shape):
         shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
 
     return shape_l1
-
+'''
 def line_clear(shape_y, perm_y):
     count = 0
     y_val = 0
     index = []
+    
     for i in perm_y:
         if i[1] == screen_y - 20:
             count+=1
     print(count)
     if (count == 10):
+        
         print("line clear")
         for i in range(len(perm_y)):
         	for j in range(len(perm_y[i])):
@@ -74,13 +76,34 @@ def line_clear(shape_y, perm_y):
         
         for i in index:
 	        perm_y.remove(i)
-    
+        
+        print(perm_y)
+        for i in range(len(perm_y)):
+            if (perm_y[i][1] == screen_y - 20):
+            	perm_y[i] = (perm_y[i][0], (perm_y[i][1] - 20))
+        print(perm_y)
+        
+
+            
+
     return perm_y
 
+'''
+
+def bound_check(shape):
+    for i in shape:
+        if (i[0] + 20 == 200) or (i[0] - 20 == -20):
+            return True
+
+
+    return False
 
 def collision_check(shape, perm):
     shape_y = []
     perm_y = []
+    y_check = False
+    x_check = False
+    b_check = False
 
     for i in range(len(shape)):
         shape_y.append((shape[i][0],shape[i][1]))
@@ -88,13 +111,8 @@ def collision_check(shape, perm):
     for i in range(len(perm)):
            perm_y.append((perm[i][0], perm[i][1]))
 
+    b_check = bound_check(shape_y)
 
-    perm_y = line_clear(shape_y,perm_y)
-    
-    #print("Shape:",shape_y)
-    #print("Perm:",perm_y)
-    y_check = False
-    x_check = False
     # check
     for i in shape_y:
         for j in perm_y:
@@ -107,25 +125,13 @@ def collision_check(shape, perm):
             #x cord check
             if i[1] == j[1]:
                 if((i[0] + 20) == j[0] or (i[0] + 20) == 350):
-                    #print("right lock")
-                    #print(i[0] + 20)
                     x_check = True
                 if((i[0] - 20) == j[0] or (i[0] - 20) == 250):
                     x_check = True
-                    #print("left lock")
-                    #print(i[1])
+                    
             
-            '''
-            if((i[0] + 20) == 380):
-                print(i[0] + 20)
-                x_check = True
-                break
-            if((i[0] - 20) == 220):
-                x_check = True
-                print(i[1])
-                break
-            '''
-    return y_check, x_check
+            
+    return y_check, x_check, b_check
 
 
 def draw_grid(screen):
@@ -157,10 +163,10 @@ def game_loop():
                 running = False
 
             if event.type == pygame.KEYDOWN:
-                if (event.key == pygame.K_LEFT) and (not coll_check[1]):
+                if (event.key == pygame.K_LEFT) and (not coll_check[2]):
                     lead_x -= 20
 
-                if (event.key == pygame.K_RIGHT) and (not coll_check[1]):
+                if (event.key == pygame.K_RIGHT) and (not coll_check[2]):
                     lead_x += 20
         
 
