@@ -4,7 +4,7 @@ import random
 
 # Global vars
 block_size = 20
-fps = 10
+fps = 13
 
 screen_x = 400
 screen_y = 500
@@ -70,21 +70,28 @@ def collision_check(shape, perm):
 
     #print("Shape:",shape_y)
     #print("Perm:",perm_y)
-
-    #x-cord check
+    y_check = False
+    x_check = False
+    # check
     for i in shape_y:
         for j in perm_y:
+        	#y cord check
             if i[0] == j[0]:
                 if((i[1] + 25) > j[1]):
-                    return True
+                    y_check = True
+                    break
+
+            #x cord check
             if i[1] == j[1]:
                 if((i[0] + 20) == j[0]):
             	    print("right lock")
+            	    x_check = True
                 if((i[0] - 20) == j[0]):
+                    x_check = True
                     print("left lock")
 
     
-    return False
+    return y_check, x_check
 
 
 def draw_grid(screen):
@@ -109,26 +116,30 @@ def game_loop():
     clock = pygame.time.Clock()
 
     while running:
+        shape = draw_shape(lead_x, lead_y, current_shape)
+        check = collision_check(shape, shape_perm)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if (event.key == pygame.K_LEFT) and (not check[1]):
                     lead_x -= 20
 
-                if event.key == pygame.K_RIGHT:
+                if (event.key == pygame.K_RIGHT) and (not check[1]):
                     lead_x += 20
         
 
-        shape = draw_shape(lead_x, lead_y, current_shape)
+        
         #draw_grid(screen)
         screen.fill((0, 0, 0))
            
         for i in range(len(shape)):
             pygame.draw.rect(screen, color, shape[i])
-
-        if(collision_check(shape, shape_perm)):
+        
+        
+        if(check[0]):
             #print("end")
             for i in range(len(shape)):
                    shape_perm.append(shape[i])
