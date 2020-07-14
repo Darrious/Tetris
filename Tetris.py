@@ -17,7 +17,7 @@ yellow = (250, 250, 0)
 blue = (0, 25, 250)
 
 def shape_picker():
-    return random.randint(1, 4)
+    return random.randint(3, 3)
 
 def draw_shape(x, y, current_shape, rotation):
     shape_l1 = []
@@ -32,26 +32,26 @@ def draw_shape(x, y, current_shape, rotation):
     
     # L shape 1
     if (current_shape == 2):
+        color = orange
         if (rotation == 0):
-            color = orange
             shape_l1.append(pygame.Rect(x, y, 20, 20))
             shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
             shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x + 20, y-40, 20, 20))
+        
         if (rotation == 1):
-            color = orange
-            shape_l1.append(pygame.Rect(x, y-40, 20, 20))
             shape_l1.append(pygame.Rect(x, y-20, 20, 20))
-            shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
-            shape_l1.append(pygame.Rect(x + 40, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 40, y, 20, 20))
+        
         if (rotation == 2):
-            color = orange
             shape_l1.append(pygame.Rect(x+40, y-40, 20, 20))
             shape_l1.append(pygame.Rect(x+20, y-40, 20, 20))
             shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
+        
         if (rotation == 3):
-            color = orange
             shape_l1.append(pygame.Rect(x+40, y, 20, 20))
             shape_l1.append(pygame.Rect(x+40, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
@@ -60,10 +60,26 @@ def draw_shape(x, y, current_shape, rotation):
     # I shape
     if (current_shape == 3):
         color = blue
-        shape_l1.append(pygame.Rect(x, y, 20, 20))
-        shape_l1.append(pygame.Rect(x, y-20, 20, 20))
-        shape_l1.append(pygame.Rect(x, y-40, 20, 20))
-        shape_l1.append(pygame.Rect(x, y-60, 20, 20))
+        if (rotation == 0):
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x, y-40, 20, 20))
+            shape_l1.append(pygame.Rect(x, y-60, 20, 20))
+        if (rotation == 1):
+            shape_l1.append(pygame.Rect(x+40, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x-20, y-20, 20, 20))
+        if (rotation == 2):
+            shape_l1.append(pygame.Rect(x+20, y, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-40, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-60, 20, 20))
+        if (rotation == 3):
+            shape_l1.append(pygame.Rect(x+40, y-40, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-40, 20, 20))
+            shape_l1.append(pygame.Rect(x, y-40, 20, 20))
+            shape_l1.append(pygame.Rect(x-20, y-40, 20, 20))
     
     # O shape
     if (current_shape == 4):
@@ -109,6 +125,7 @@ def line_clear(shape_y, perm_y):
 
 '''
 
+#Checks for collision of blocks with edges of screen
 def bound_check(shape):
     for i in shape:
         if (i[0] + 20 == 200) or (i[0] - 20 == -20):
@@ -117,6 +134,7 @@ def bound_check(shape):
 
     return False
 
+#Checks for collision of blocks with each other
 def collision_check(shape, perm):
     shape_y = []
     perm_y = []
@@ -166,7 +184,7 @@ def game_loop():
     pygame.init()
     screen = pygame.display.set_mode([screen_x, screen_y])
     running = True
-    current_shape =2#random.randint(1,4)
+    current_shape = shape_picker()
     rotation = 0
    
     lead_x = 80
@@ -220,7 +238,7 @@ def game_loop():
 
             lead_y = 0
             lead_x = 80
-            current_shape = 2#shape_picker()
+            current_shape = shape_picker()
 
         if lead_y < screen_y - 20:
             lead_y += 20
@@ -233,7 +251,7 @@ def game_loop():
 
             lead_y = 0
             lead_x = 80
-            current_shape = 2#shape_picker()
+            current_shape = shape_picker()
 
 
         
