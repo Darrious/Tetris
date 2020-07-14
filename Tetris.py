@@ -17,7 +17,7 @@ yellow = (250, 250, 0)
 blue = (0, 25, 250)
 
 def shape_picker():
-    return random.randint(3, 3)
+    return random.randint(2, 3)
 
 def draw_shape(x, y, current_shape, rotation):
     shape_l1 = []
@@ -192,9 +192,10 @@ def game_loop():
     clock = pygame.time.Clock()
 
     while running:
+
         shape = draw_shape(lead_x, lead_y, current_shape, rotation)
         coll_check = collision_check(shape, shape_perm)
-
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -208,13 +209,13 @@ def game_loop():
             if event.type == pygame.KEYDOWN:
                 if (event.key == pygame.K_UP):
                     if (rotation == 3):
-                        rotation == 0
+                        rotation = 0
                     else:
                         rotation+=1
             if event.type == pygame.KEYDOWN:
-                if (event.key == pygame.K_DOWN):
+                if (event.key == pygame.K_DOWN):   
                     if (rotation == 0):
-                        rotation == 3
+                        rotation = 3
                     else:
                         rotation-=1
 
@@ -239,6 +240,7 @@ def game_loop():
             lead_y = 0
             lead_x = 80
             current_shape = shape_picker()
+            rotation = 0
 
         if lead_y < screen_y - 20:
             lead_y += 20
@@ -252,6 +254,7 @@ def game_loop():
             lead_y = 0
             lead_x = 80
             current_shape = shape_picker()
+            rotation = 0
 
 
         
@@ -259,7 +262,6 @@ def game_loop():
 
             pygame.draw.rect(screen, perm_color[i], shape_perm[i])
         
-
         pygame.display.flip()
         clock.tick(fps)
         
