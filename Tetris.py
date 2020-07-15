@@ -15,9 +15,11 @@ orange = (240, 120, 40)
 purple = (110, 0, 250)
 yellow = (250, 250, 0)
 blue = (0, 25, 250)
+red = (200, 20, 30)
+green = (5, 175, 15)
 
 def shape_picker():
-    return random.randint(1, 1)
+    return random.randint(1, 6)
 
 def draw_shape(x, y, current_shape, rotation):
     shape_l1 = []
@@ -111,6 +113,56 @@ def draw_shape(x, y, current_shape, rotation):
         shape_l1.append(pygame.Rect(x, y-20, 20, 20))
         shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
         shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
+   
+    # Z shape
+    if (current_shape == 5):
+        color = red
+        if (rotation == 0):
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y, 20, 20))
+            shape_l1.append(pygame.Rect(x-20, y-20, 20, 20))
+
+        if (rotation == 1):
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-40, 20, 20))
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+        if (rotation == 2):
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y, 20, 20))
+            shape_l1.append(pygame.Rect(x-20, y-20, 20, 20))
+
+        if (rotation == 3):
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-40, 20, 20))
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+
+    # S shape
+    if (current_shape == 6):
+        color = green
+        if (rotation == 0):
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x-20, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
+        if (rotation == 1):
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x-20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x-20, y-40, 20, 20))
+        if (rotation == 2):
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x-20, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
+        if (rotation == 3):
+            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x-20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x-20, y-40, 20, 20))
 
     return shape_l1
 '''
