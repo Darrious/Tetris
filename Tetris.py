@@ -4,7 +4,7 @@ import random
 
 # Global vars
 block_size = 20
-fps = 3
+fps = 5
 
 screen_x = 200
 screen_y = 400
@@ -17,7 +17,7 @@ yellow = (250, 250, 0)
 blue = (0, 25, 250)
 
 def shape_picker():
-    return random.randint(2, 3)
+    return random.randint(1, 1)
 
 def draw_shape(x, y, current_shape, rotation):
     shape_l1 = []
@@ -25,10 +25,29 @@ def draw_shape(x, y, current_shape, rotation):
     # W shape
     if (current_shape == 1):
         color = purple
-        shape_l1.append(pygame.Rect(x, y, 20, 20))
-        shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
-        shape_l1.append(pygame.Rect(x + 40, y, 20, 20))
-        shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
+        if (rotation == 0):
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 40, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
+
+        if (rotation == 1):
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y+20, 20, 20))
+            shape_l1.append(pygame.Rect(x + 40, y, 20, 20))
+
+        if (rotation == 2):
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 40, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
+
+        if (rotation == 3):
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x + 40, y+20, 20, 20))
+            shape_l1.append(pygame.Rect(x + 20, y-20, 20, 20))
+            shape_l1.append(pygame.Rect(x, y-40, 20, 20))
     
     # L shape 1
     if (current_shape == 2):
@@ -40,6 +59,7 @@ def draw_shape(x, y, current_shape, rotation):
             shape_l1.append(pygame.Rect(x + 20, y-40, 20, 20))
         
         if (rotation == 1):
+
             shape_l1.append(pygame.Rect(x, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x, y, 20, 20))
             shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
@@ -66,10 +86,12 @@ def draw_shape(x, y, current_shape, rotation):
             shape_l1.append(pygame.Rect(x, y-40, 20, 20))
             shape_l1.append(pygame.Rect(x, y-60, 20, 20))
         if (rotation == 1):
-            shape_l1.append(pygame.Rect(x+40, y-20, 20, 20))
-            shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
-            shape_l1.append(pygame.Rect(x, y-20, 20, 20))
-            shape_l1.append(pygame.Rect(x-20, y-20, 20, 20))
+            print(x, y)
+            y -=20
+            shape_l1.append(pygame.Rect(x+40, y, 20, 20))
+            shape_l1.append(pygame.Rect(x+20, y, 20, 20))
+            shape_l1.append(pygame.Rect(x, y, 20, 20))
+            shape_l1.append(pygame.Rect(x-20, y, 20, 20))
         if (rotation == 2):
             shape_l1.append(pygame.Rect(x+20, y, 20, 20))
             shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
@@ -104,18 +126,18 @@ def line_clear(shape_y, perm_y):
         
         print("line clear")
         for i in range(len(perm_y)):
-        	for j in range(len(perm_y[i])):
-        		if(perm_y[i][j] == screen_y - 20):
-        			index.append(perm_y[i])
+            for j in range(len(perm_y[i])):
+                if(perm_y[i][j] == screen_y - 20):
+                    index.append(perm_y[i])
 
         
         for i in index:
-	        perm_y.remove(i)
+            perm_y.remove(i)
         
         print(perm_y)
         for i in range(len(perm_y)):
             if (perm_y[i][1] == screen_y - 20):
-            	perm_y[i] = (perm_y[i][0], (perm_y[i][1] - 20))
+                perm_y[i] = (perm_y[i][0], (perm_y[i][1] - 20))
         print(perm_y)
         
 
@@ -149,8 +171,9 @@ def collision_check(shape, perm):
            perm_y.append((perm[i][0], perm[i][1]))
 
     b_check = bound_check(shape_y)
-
-    # check
+    
+   
+    # check block collision
     for i in shape_y:
         for j in perm_y:
             #y cord check
@@ -165,7 +188,10 @@ def collision_check(shape, perm):
                     x_check = True
                 if((i[0] - 20) == j[0] or (i[0] - 20) == 250):
                     x_check = True
-                    
+        if(i[1] == 380):
+            y_check = True
+            break
+                  
             
             
     return y_check, x_check, b_check
@@ -181,31 +207,34 @@ def draw_grid(screen):
 
 
 def game_loop():
+    global fps
     pygame.init()
     screen = pygame.display.set_mode([screen_x, screen_y])
     running = True
     current_shape = shape_picker()
     rotation = 0
    
-    lead_x = 80
-    lead_y = 0
+    start_x = 80
+    start_y = 0
     clock = pygame.time.Clock()
 
     while running:
-
-        shape = draw_shape(lead_x, lead_y, current_shape, rotation)
+        shape = draw_shape(start_x, start_y, current_shape, rotation)
         coll_check = collision_check(shape, shape_perm)
+
         
+
+        # These listen for arrow key pushes
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
             if event.type == pygame.KEYDOWN:
                 if (event.key == pygame.K_LEFT) and (not coll_check[2]):
-                    lead_x -= 20
+                    start_x -= 20
 
                 if (event.key == pygame.K_RIGHT) and (not coll_check[2]):
-                    lead_x += 20
+                    start_x += 20
             if event.type == pygame.KEYDOWN:
                 if (event.key == pygame.K_UP):
                     if (rotation == 3):
@@ -229,41 +258,29 @@ def game_loop():
             pygame.draw.rect(screen, color, shape[i])
         
         
-        #Checking line clear
-
+        # Checking for a block collision
         if(coll_check[0]):
             #print("end")
-            for i in range(len(shape)):
-                   shape_perm.append(shape[i])
-                   perm_color.append(color)
-
-            lead_y = 0
-            lead_x = 80
-            current_shape = shape_picker()
-            rotation = 0
-
-        if lead_y < screen_y - 20:
-            lead_y += 20
-        else:
-            #print("end")
-
             for i in range(len(shape)):
                 shape_perm.append(shape[i])
                 perm_color.append(color)
 
-            lead_y = 0
-            lead_x = 80
+            start_y = 0
+            start_x = 80
             current_shape = shape_picker()
             rotation = 0
 
-
+        start_y += 20
         
-        for i in range(len(shape_perm)):
 
+
+        # Drawing stored blocks
+        for i in range(len(shape_perm)):
             pygame.draw.rect(screen, perm_color[i], shape_perm[i])
         
         pygame.display.flip()
         clock.tick(fps)
+    
         
 def main():
     game_loop()
