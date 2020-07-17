@@ -206,7 +206,9 @@ def line_clear(shape_y, perm_y, perm_color):
         if i[1] == screen_y - 20:
             count+=1
     print(count)
-    if (count == 10):    
+
+    #if there are 10 blocks on the row, delete it
+    if (count >= 10):    
         print("line clear")
         for i in range(len(perm_y)):
             for j in range(len(perm_y[i])):
@@ -214,20 +216,15 @@ def line_clear(shape_y, perm_y, perm_color):
                     index.append(perm_y[i])
                     color_index.append(perm_color[i])
 
-        
+        # Removes the line from the perm array and color array
         for i in index:
             perm_y.remove(i)
         for i in color_index:
             perm_color.remove(i)
         
-        print(perm_y)
-        for i in range(len(perm_y)):
-            if (perm_y[i][1] == screen_y - 20):
-                perm_y[i] = (perm_y[i][0], (perm_y[i][1] - 20))
-        print(perm_y)
-        
+        for i in range(len(perm_y)):                  
+            perm_y[i][1] = perm_y[i][1] + 20
 
-            
 
     return perm_y
 
