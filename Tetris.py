@@ -90,7 +90,6 @@ def draw_shape(x, y, current_shape, rotation):
             shape_l1.append(pygame.Rect(x, y-40, 20, 20))
             shape_l1.append(pygame.Rect(x, y-60, 20, 20))
         if (rotation == 1):
-            print(x, y)
             y -=20
             shape_l1.append(pygame.Rect(x+40, y, 20, 20))
             shape_l1.append(pygame.Rect(x+20, y, 20, 20))
@@ -200,31 +199,39 @@ def line_clear(shape_y, perm_y, perm_color):
     y_val = 0
     index = []
     color_index = []
+    line_val = -20
+    line_pos = 0
+
+    while line_val > -380:
+        #print("\nline val: ", line_val)
+        count = 0
+        for i in perm_y:
+            #print("Screeny:", screen_y , " | i[1]:", i[1], " | equation:", screen_y-line_val )
+            if i[1] == screen_y + line_val:
+                count+=1
+        #print("Number of blocks: ",count)
+
+        #if there are 10 blocks on the row, delete it
+        if (count >= 10):    
+            print("line clear")
+            for i in range(len(perm_y)):
+                for j in range(len(perm_y[i])):
+                    if(perm_y[i][j] == screen_y + line_val):
+                        index.append(perm_y[i])
+                        color_index.append(perm_color[i])
+
+            # Removes the line from the perm array and color array
+            for i in index:
+                perm_y.remove(i)
+            for i in color_index:
+                perm_color.remove(i)
+            
+            for i in range(line_pos, len(perm_y)):                  
+                perm_y[i][1] = perm_y[i][1] + 20
+            
+        line_val=line_val - 20
+        line_pos+=1
     
-   
-    for i in perm_y:
-        if i[1] == screen_y - 20:
-            count+=1
-    print(count)
-
-    #if there are 10 blocks on the row, delete it
-    if (count >= 10):    
-        print("line clear")
-        for i in range(len(perm_y)):
-            for j in range(len(perm_y[i])):
-                if(perm_y[i][j] == screen_y - 20):
-                    index.append(perm_y[i])
-                    color_index.append(perm_color[i])
-
-        # Removes the line from the perm array and color array
-        for i in index:
-            perm_y.remove(i)
-        for i in color_index:
-            perm_color.remove(i)
-        
-        for i in range(len(perm_y)):                  
-            perm_y[i][1] = perm_y[i][1] + 20
-
 
     return perm_y
 
