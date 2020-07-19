@@ -227,7 +227,7 @@ def line_clear(shape_y, perm_y, perm_color):
                 perm_color.remove(i)
             
             for i in range(len(perm_y)):                  
-                if(perm_y[i][1] < screen_y + line_val):
+                if(perm_y[i][1] <= screen_y + line_val):
                     perm_y[i][1] = perm_y[i][1] + 20
             
         line_val=line_val - 20
@@ -311,11 +311,97 @@ def draw_grid(screen):
                                block_size, block_size)
             pygame.draw.rect(screen, (80, 80, 80), rect, 1)
 
+def setup():
+    rect_arr = []
+    rect_arr.append(pygame.Rect(0, 380 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(20, 380 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(40, 380 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(60, 380 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(80, 380 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(100, 380 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(120, 380 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(140, 380 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(160, 380 , 20, 20))
+    perm_color.append(green)
+    
+    
+    rect_arr.append(pygame.Rect(0, 360 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(20, 360 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(40, 360 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(60, 360 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(80, 360 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(100, 360 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(120, 360 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(140, 360 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(160, 360 , 20, 20))
+    perm_color.append(green)
+    
+    
+    rect_arr.append(pygame.Rect(0, 340 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(20, 340 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(40, 340 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(60, 340 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(80, 340 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(100, 340 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(120, 340 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(140, 340 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(160, 340 , 20, 20))
+    perm_color.append(green)
 
+    rect_arr.append(pygame.Rect(0, 320 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(20, 320 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(40, 320 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(60, 320 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(80, 320 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(100, 320 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(120, 320 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(140, 320 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(160, 320 , 20, 20))
+    perm_color.append(green)
+    
+    
+    
+
+    return rect_arr
 
 def game_loop():
     global fps
+    
+    shape_perm = setup()
     pygame.init()
+
     screen = pygame.display.set_mode([screen_x, screen_y])
     running = True
     current_shape = shape_picker()
@@ -334,6 +420,10 @@ def game_loop():
         coll_check = collision_check(shape, shape_perm)
 
         line_clear(shape, shape_perm, perm_color)
+        line_clear(shape, shape_perm, perm_color)
+        line_clear(shape, shape_perm, perm_color)
+        line_clear(shape, shape_perm, perm_color)
+
         
 
         # These listen for arrow key pushes
