@@ -201,6 +201,7 @@ def line_clear(shape_y, perm_y, perm_color):
     color_index = []
     line_val = -20
     line_pos = 0
+    check = False
 
     while line_val > -380:
         #print("\nline val: ", line_val)
@@ -226,9 +227,22 @@ def line_clear(shape_y, perm_y, perm_color):
             for i in color_index:
                 perm_color.remove(i)
             
-            for i in range(len(perm_y)):                  
+            # Moves blocks down 
+            for i in range(len(perm_y)): 
                 if(perm_y[i][1] <= screen_y + line_val):
+                    perm_y[i][1] = perm_y[i][1] + 20                     
+
+
+            for i in perm_y:
+                if (i[1]==screen_y):
+                    print("We got one")
+                    check = True
+
+            if(check == False):   
+                print("no go")
+                for i in range(len(perm_y)):                      
                     perm_y[i][1] = perm_y[i][1] + 20
+                break
             
         line_val=line_val - 20
         line_pos+=1
@@ -371,7 +385,7 @@ def setup():
     perm_color.append(green)
     rect_arr.append(pygame.Rect(160, 340 , 20, 20))
     perm_color.append(green)
-
+    '''
     rect_arr.append(pygame.Rect(0, 320 , 20, 20))
     perm_color.append(green)
     rect_arr.append(pygame.Rect(20, 320 , 20, 20))
@@ -390,7 +404,7 @@ def setup():
     perm_color.append(green)
     rect_arr.append(pygame.Rect(160, 320 , 20, 20))
     perm_color.append(green)
-    
+    '''
     
     
 
