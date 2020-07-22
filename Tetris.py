@@ -20,7 +20,7 @@ green = (5, 175, 15)
 cyan = (50, 200, 200)
 
 def shape_picker():
-    return random.randint(1, 7)
+    return random.randint(3, 3)
 
 def draw_shape(x, y, current_shape, rotation):
     shape_l1 = []
@@ -213,6 +213,7 @@ def line_clear(shape_y, perm_y, perm_color):
         #print("Number of blocks: ",count)
 
         #if there are 10 blocks on the row, delete it
+        index = []
         if (count >= 10):    
             print("line clear")
             for i in range(len(perm_y)):
@@ -220,14 +221,25 @@ def line_clear(shape_y, perm_y, perm_color):
                     if(perm_y[i][j] == screen_y + line_val):
                         index.append(perm_y[i])
                         color_index.append(perm_color[i])
+            
 
+            for i in index:
+            	i[0] += 20
+            	i[1] += 20
+            print("perm_y")
+            print(perm_y)
+            print("index full")
+            print(index)
             # Removes the line from the perm array and color array
             for i in index:
+                print("index")
+                print(i)
                 perm_y.remove(i)
             for i in color_index:
                 perm_color.remove(i)
             
-            # Moves blocks down 
+            # Moves blocks down
+            '''
             for i in range(len(perm_y)): 
                 if(perm_y[i][1] <= screen_y + line_val):
                     perm_y[i][1] = perm_y[i][1] + 20                     
@@ -242,11 +254,12 @@ def line_clear(shape_y, perm_y, perm_color):
                 print("no go")
                 for i in range(len(perm_y)):                      
                     perm_y[i][1] = perm_y[i][1] + 20
-                break
+                break'''
             
         line_val=line_val - 20
         line_pos+=1
     
+
 
     return perm_y
 
@@ -327,8 +340,7 @@ def draw_grid(screen):
 
 def setup():
     rect_arr = []
-    rect_arr.append(pygame.Rect(0, 380 , 20, 20))
-    perm_color.append(green)
+    
     rect_arr.append(pygame.Rect(20, 380 , 20, 20))
     perm_color.append(green)
     rect_arr.append(pygame.Rect(40, 380 , 20, 20))
@@ -344,6 +356,8 @@ def setup():
     rect_arr.append(pygame.Rect(140, 380 , 20, 20))
     perm_color.append(green)
     rect_arr.append(pygame.Rect(160, 380 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(180, 380 , 20, 20))
     perm_color.append(green)
     
     
@@ -385,7 +399,7 @@ def setup():
     perm_color.append(green)
     rect_arr.append(pygame.Rect(160, 340 , 20, 20))
     perm_color.append(green)
-    '''
+    
     rect_arr.append(pygame.Rect(0, 320 , 20, 20))
     perm_color.append(green)
     rect_arr.append(pygame.Rect(20, 320 , 20, 20))
@@ -404,7 +418,46 @@ def setup():
     perm_color.append(green)
     rect_arr.append(pygame.Rect(160, 320 , 20, 20))
     perm_color.append(green)
-    '''
+
+    rect_arr.append(pygame.Rect(0, 300 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(20, 300 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(40, 300 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(60, 300 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(80, 300 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(100, 300 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(120, 300 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(140, 300 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(160, 300 , 20, 20))
+    perm_color.append(green)
+
+    rect_arr.append(pygame.Rect(0, 280 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(20, 280 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(40, 280 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(60, 280 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(80, 280 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(100, 280 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(120, 280 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(140, 280 , 20, 20))
+    perm_color.append(green)
+    rect_arr.append(pygame.Rect(160, 280 , 20, 20))
+    perm_color.append(green)
+    
+    
     
     
 
@@ -497,7 +550,7 @@ def game_loop():
 
         frame +=1
         if(frame % 9 == 0):
-        	start_y += 20
+            start_y += 20
         
 
 
