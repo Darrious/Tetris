@@ -20,7 +20,7 @@ green = (5, 175, 15)
 cyan = (50, 200, 200)
 
 def shape_picker():
-    return random.randint(3, 3)
+    return random.randint(1, 7)
 
 def draw_shape(x, y, current_shape, rotation):
     shape_l1 = []
@@ -220,36 +220,31 @@ def line_clear(shape_y, perm_y, perm_color):
                 for j in range(len(perm_y[i])):
                     if(perm_y[i][j] == screen_y + line_val):
                         index.append(perm_y[i])
-                        color_index.append(perm_color[i])
+                        #color_index.append(perm_color[i])
             
 
             for i in index:
             	i[0] += 20
             	i[1] += 20
-            print("perm_y")
-            print(perm_y)
-            print("index full")
-            print(index)
+            
             # Removes the line from the perm array and color array
             for i in index:
-                print("index")
-                print(i)
                 perm_y.remove(i)
-            for i in color_index:
-                perm_color.remove(i)
+            #for i in color_index:
+                #perm_color.remove(i)
             
             # Moves blocks down
-            '''
+            
             for i in range(len(perm_y)): 
                 if(perm_y[i][1] <= screen_y + line_val):
                     perm_y[i][1] = perm_y[i][1] + 20                     
 
-
+            '''
             for i in perm_y:
                 if (i[1]==screen_y):
                     print("We got one")
                     check = True
-
+            
             if(check == False):   
                 print("no go")
                 for i in range(len(perm_y)):                      
@@ -340,7 +335,7 @@ def draw_grid(screen):
 
 def setup():
     rect_arr = []
-    
+    '''
     rect_arr.append(pygame.Rect(20, 380 , 20, 20))
     perm_color.append(green)
     rect_arr.append(pygame.Rect(40, 380 , 20, 20))
@@ -456,7 +451,7 @@ def setup():
     perm_color.append(green)
     rect_arr.append(pygame.Rect(160, 280 , 20, 20))
     perm_color.append(green)
-    
+    '''
     
     
     
@@ -556,7 +551,7 @@ def game_loop():
 
         # Drawing stored blocks
         for i in range(len(shape_perm)):
-            pygame.draw.rect(screen, perm_color[i], shape_perm[i])
+            pygame.draw.rect(screen, green, shape_perm[i])
         
         pygame.display.flip()
         clock.tick(fps)
