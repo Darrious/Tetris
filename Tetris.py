@@ -21,6 +21,7 @@ green = (5, 175, 15)
 cyan = (50, 200, 200)
 grey = (40, 40, 40)
 
+# Picks a random shape
 def shape_picker():
     return random.randint(1, 7)
 
@@ -168,7 +169,7 @@ def draw_shape(x, y, current_shape, rotation, next_shape):
             shape_l1.append(pygame.Rect(x-20, y-40, 20, 20))
        
     
-    # L
+    # L shape
     if (current_shape == 7):
         color = green #blue
         if (rotation == 0):
@@ -195,6 +196,8 @@ def draw_shape(x, y, current_shape, rotation, next_shape):
             shape_l1.append(pygame.Rect(x+40, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+    
+    # The below code is for displaying the preview for the next block
     prev_size = 10
     if(next_shape==1):
         next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
@@ -250,13 +253,10 @@ def line_clear(shape_y, perm_y, perm_color):
     check = False
 
     while line_val > -380:
-        #print("\nline val: ", line_val)
         count = 0
         for i in perm_y:
-            #print("Screeny:", screen_y , " | i[1]:", i[1], " | equation:", screen_y-line_val )
             if i[1] == screen_y + line_val:
-                count+=1
-        #print("Number of blocks: ",count)
+                count+=1 # This variable tracks how many blocks are on a line
 
         #if there are 10 blocks on the row, delete it
         index = []
@@ -276,26 +276,11 @@ def line_clear(shape_y, perm_y, perm_color):
             # Removes the line from the perm array and color array
             for i in index:
                 perm_y.remove(i)
-            #for i in color_index:
-                #perm_color.remove(i)
             
-            # Moves blocks down
-            
+            # Moves blocks down after line clear
             for i in range(len(perm_y)): 
                 if(perm_y[i][1] <= screen_y + line_val):
                     perm_y[i][1] = perm_y[i][1] + 20                     
-
-            '''
-            for i in perm_y:
-                if (i[1]==screen_y):
-                    print("We got one")
-                    check = True
-            
-            if(check == False):   
-                print("no go")
-                for i in range(len(perm_y)):                      
-                    perm_y[i][1] = perm_y[i][1] + 20
-                break'''
             
         line_val=line_val - 20
         line_pos+=1
@@ -328,6 +313,7 @@ def bound_check_r(shape):
     return False
 
 
+# Shows a "faded" preview of where the block will drio
 def shape_preview(shape, perm):
     shape_orig = shape
     while(not (collision_check(shape, perm)[0])):
@@ -351,7 +337,8 @@ def collision_check(shape, perm):
 
     for i in range(len(perm)):
            perm_y.append((perm[i][0], perm[i][1]))
-
+    
+    # These variables check for left or right bound checks (The screen borders)
     b_check_l = bound_check_l(shape_y)
     b_check_r = bound_check_r(shape_y)
     
@@ -365,7 +352,7 @@ def collision_check(shape, perm):
                     y_check = True
                     break
 
-            #x cord check
+            #x cord check (checks if another block is to the left or right)
             if i[1] == j[1]:
                 if((i[0] + 20) == j[0] or (i[0] + 20) == 350):
                     x_check = True
@@ -379,7 +366,7 @@ def collision_check(shape, perm):
             
     return y_check, x_check, b_check_l, b_check_r
 
-
+# This draws a background grid
 def draw_grid(screen):
     for x in range(screen_x):
         for y in range(screen_y):
@@ -387,24 +374,14 @@ def draw_grid(screen):
                                block_size, block_size)
             pygame.draw.rect(screen, (80, 80, 80), rect, 1)
 
-def setup_score():
-    rect_arr = []
-    
-    rect_arr.append(pygame.Rect(20, 380 , 20, 20))
-    perm_color.append(grey)
-    rect_arr.append(pygame.Rect(40, 380 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(60, 380 , 20, 20))
-    
-    
 
-    return rect_arr
 
 def game_loop():
     global fps
     
     pygame.init()
-
+    
+    #Setting up variables
     screen = pygame.display.set_mode([screen_x_bord, screen_y])
     running = True
     current_shape = shape_picker()
@@ -421,6 +398,8 @@ def game_loop():
     #Draw right border background
     pygame.draw.rect(screen, grey,(50,50,50,400))
 
+    
+    # The game loop
     while running:
         count = (count + 1) % 2
 
@@ -428,14 +407,15 @@ def game_loop():
         next_prev = draw_shape(start_x, start_y, current_shape, rotation, next_shape)[1]
 
         coll_check = collision_check(shape, shape_perm)
-
+        
+        # Check for line clears
         line_clear(shape, shape_perm, perm_color)
         line_clear(shape, shape_perm, perm_color)
         line_clear(shape, shape_perm, perm_color)
         line_clear(shape, shape_perm, perm_color)
   
 
-        # These listen for arrow key pushes
+        # These listen for key pushes
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -469,12 +449,14 @@ def game_loop():
         
         #Fill background
         screen.fill((0, 0, 0))
+        #draw_grid(screen)
         pygame.draw.rect(screen, grey,(200,0, screen_x_bord-200, screen_y))
         
+        # Displays the next block preview
         for i in range(len(next_prev)):
             pygame.draw.rect(screen, green, next_prev[i])
 
-        # Drawing shape
+        # Drawing shape and shap drop preview
         for i in range(len(shape)):
             pygame.draw.rect(screen, color, shape[i])
         shape = shape_preview(shape, shape_perm)
@@ -485,7 +467,6 @@ def game_loop():
         
         # Checking for a block collision
         if(coll_check[0]):
-            #print("end")
             for i in range(len(shape)):
                 shape_perm.append(shape[i])
                 perm_color.append(color)
@@ -496,15 +477,15 @@ def game_loop():
             next_shape = shape_picker()
             rotation = 0
             fps = 8
-
-
+        
+        # We use this to control the speed of block fall
         frame +=1
         if(frame % 9 == 0):
             start_y += 20
         
 
 
-        # Drawing stored blocks
+        # Drawing stored blocks (blocks that have been dropped)
         for i in range(len(shape_perm)):
             pygame.draw.rect(screen, green, shape_perm[i])
         
