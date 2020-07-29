@@ -195,9 +195,50 @@ def draw_shape(x, y, current_shape, rotation, next_shape):
             shape_l1.append(pygame.Rect(x+40, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x, y-20, 20, 20))
-   
+    prev_size = 10
+    if(next_shape==1):
+        next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
+        next_prev.append(pygame.Rect(240, 40, prev_size, prev_size))
+        next_prev.append(pygame.Rect(250, 40, prev_size, prev_size))
+        next_prev.append(pygame.Rect(240, 30, prev_size, prev_size))
+
+    if(next_shape==2):   
+        next_prev.append(pygame.Rect(230, 20, prev_size, prev_size))
+        next_prev.append(pygame.Rect(230, 30, prev_size, prev_size))
+        next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
+        next_prev.append(pygame.Rect(220, 40, prev_size, prev_size))
+
+    if(next_shape==3):     
+        next_prev.append(pygame.Rect(230, 10, prev_size, prev_size))
+        next_prev.append(pygame.Rect(230, 20, prev_size, prev_size))
+        next_prev.append(pygame.Rect(230, 30, prev_size, prev_size))
+        next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
+
+    if(next_shape==4):     
+        next_prev.append(pygame.Rect(230, 30, prev_size, prev_size))
+        next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
+        next_prev.append(pygame.Rect(240, 30, prev_size, prev_size))
+        next_prev.append(pygame.Rect(240, 40, prev_size, prev_size))
+
+    if(next_shape==5):     
+        next_prev.append(pygame.Rect(240, 40, prev_size, prev_size))
+        next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
+        next_prev.append(pygame.Rect(230, 30, prev_size, prev_size))
+        next_prev.append(pygame.Rect(220, 30, prev_size, prev_size))
+
+    if(next_shape==6):     
+        next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
+        next_prev.append(pygame.Rect(240, 40, prev_size, prev_size))
+        next_prev.append(pygame.Rect(240, 30, prev_size, prev_size))
+        next_prev.append(pygame.Rect(250, 30, prev_size, prev_size))
+
+    if(next_shape==7):     
+        next_prev.append(pygame.Rect(230, 20, prev_size, prev_size))
+        next_prev.append(pygame.Rect(230, 30, prev_size, prev_size))
+        next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
+        next_prev.append(pygame.Rect(240, 40, prev_size, prev_size))
     
-    return shape_l1
+    return shape_l1, next_prev
 
 def line_clear(shape_y, perm_y, perm_color):
     count = 0
