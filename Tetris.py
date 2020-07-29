@@ -8,6 +8,7 @@ fps = 8
 
 screen_x = 200
 screen_y = 400
+screen_x_bord = 275
 
 shape_perm = []
 perm_color = []
@@ -18,12 +19,14 @@ blue = (0, 25, 250)
 red = (200, 20, 30)
 green = (5, 175, 15)
 cyan = (50, 200, 200)
+grey = (40, 40, 40)
 
 def shape_picker():
     return random.randint(1, 7)
 
-def draw_shape(x, y, current_shape, rotation):
+def draw_shape(x, y, current_shape, rotation, next_shape):
     shape_l1 = []
+    next_prev = []
     global color
     # W shape
     if (current_shape == 1):
@@ -163,6 +166,7 @@ def draw_shape(x, y, current_shape, rotation):
             shape_l1.append(pygame.Rect(x-20, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x, y, 20, 20))
             shape_l1.append(pygame.Rect(x-20, y-40, 20, 20))
+       
     
     # L
     if (current_shape == 7):
@@ -191,6 +195,7 @@ def draw_shape(x, y, current_shape, rotation):
             shape_l1.append(pygame.Rect(x+40, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x+20, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x, y-20, 20, 20))
+   
     
     return shape_l1
 
@@ -224,8 +229,8 @@ def line_clear(shape_y, perm_y, perm_color):
             
 
             for i in index:
-            	i[0] += 20
-            	i[1] += 20
+                i[0] += 20
+                i[1] += 20
             
             # Removes the line from the perm array and color array
             for i in index:
@@ -282,6 +287,14 @@ def bound_check_r(shape):
     return False
 
 
+def shape_preview(shape, perm):
+    shape_orig = shape
+    while(not (collision_check(shape, perm)[0])):
+        for i in shape:
+            i[1] +=20
+
+    return shape, shape_orig
+
 
 #Checks for collision of blocks with each other
 def collision_check(shape, perm):
@@ -333,126 +346,14 @@ def draw_grid(screen):
                                block_size, block_size)
             pygame.draw.rect(screen, (80, 80, 80), rect, 1)
 
-def setup():
+def setup_score():
     rect_arr = []
-    '''
+    
     rect_arr.append(pygame.Rect(20, 380 , 20, 20))
-    perm_color.append(green)
+    perm_color.append(grey)
     rect_arr.append(pygame.Rect(40, 380 , 20, 20))
     perm_color.append(green)
     rect_arr.append(pygame.Rect(60, 380 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(80, 380 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(100, 380 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(120, 380 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(140, 380 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(160, 380 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(180, 380 , 20, 20))
-    perm_color.append(green)
-    
-    
-    rect_arr.append(pygame.Rect(0, 360 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(20, 360 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(40, 360 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(60, 360 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(80, 360 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(100, 360 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(120, 360 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(140, 360 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(160, 360 , 20, 20))
-    perm_color.append(green)
-    
-    
-    rect_arr.append(pygame.Rect(0, 340 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(20, 340 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(40, 340 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(60, 340 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(80, 340 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(100, 340 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(120, 340 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(140, 340 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(160, 340 , 20, 20))
-    perm_color.append(green)
-    
-    rect_arr.append(pygame.Rect(0, 320 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(20, 320 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(40, 320 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(60, 320 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(80, 320 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(100, 320 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(120, 320 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(140, 320 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(160, 320 , 20, 20))
-    perm_color.append(green)
-
-    rect_arr.append(pygame.Rect(0, 300 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(20, 300 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(40, 300 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(60, 300 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(80, 300 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(100, 300 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(120, 300 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(140, 300 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(160, 300 , 20, 20))
-    perm_color.append(green)
-
-    rect_arr.append(pygame.Rect(0, 280 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(20, 280 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(40, 280 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(60, 280 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(80, 280 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(100, 280 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(120, 280 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(140, 280 , 20, 20))
-    perm_color.append(green)
-    rect_arr.append(pygame.Rect(160, 280 , 20, 20))
-    perm_color.append(green)
-    '''
-    
     
     
 
@@ -461,12 +362,12 @@ def setup():
 def game_loop():
     global fps
     
-    shape_perm = setup()
     pygame.init()
 
-    screen = pygame.display.set_mode([screen_x, screen_y])
+    screen = pygame.display.set_mode([screen_x_bord, screen_y])
     running = True
     current_shape = shape_picker()
+    next_shape = shape_picker()
     rotation = 0
    
     start_x = 80
@@ -475,18 +376,23 @@ def game_loop():
     count = 0
     frame = 0
 
+    
+    #Draw right border background
+    pygame.draw.rect(screen, grey,(50,50,50,400))
+
     while running:
         count = (count + 1) % 2
 
-        shape = draw_shape(start_x, start_y, current_shape, rotation)
+        shape = draw_shape(start_x, start_y, current_shape, rotation, next_shape)[0]
+        next_prev = draw_shape(start_x, start_y, current_shape, rotation, next_shape)[1]
+
         coll_check = collision_check(shape, shape_perm)
 
         line_clear(shape, shape_perm, perm_color)
         line_clear(shape, shape_perm, perm_color)
         line_clear(shape, shape_perm, perm_color)
         line_clear(shape, shape_perm, perm_color)
-
-        
+  
 
         # These listen for arrow key pushes
         for event in pygame.event.get():
@@ -517,17 +423,24 @@ def game_loop():
                         rotation-=1
             if event.type == pygame.KEYDOWN:
                 if (event.key == pygame.K_DOWN):   
-                    fps = 10000
+                    fps = 1_000_000
 
         
-        #draw_grid(screen)
+        #Fill background
         screen.fill((0, 0, 0))
-           
+        pygame.draw.rect(screen, grey,(200,0, screen_x_bord-200, screen_y))
+        
+        for i in range(len(next_prev)):
+            pygame.draw.rect(screen, green, next_prev[i])
 
         # Drawing shape
         for i in range(len(shape)):
             pygame.draw.rect(screen, color, shape[i])
-        
+        shape = shape_preview(shape, shape_perm)
+        shape_pre = shape[0]
+        for i in range(len(shape_pre)):
+            pygame.draw.rect(screen, grey, shape_pre[i])
+        shape = shape[1]
         
         # Checking for a block collision
         if(coll_check[0]):
@@ -538,7 +451,8 @@ def game_loop():
 
             start_y = 0
             start_x = 80
-            current_shape = shape_picker()
+            current_shape = next_shape
+            next_shape = shape_picker()
             rotation = 0
             fps = 8
 
