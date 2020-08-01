@@ -31,7 +31,7 @@ def draw_shape(x, y, current_shape, rotation, next_shape):
     global color
     # W shape
     if (current_shape == 1):
-        color = green #purple
+        color = purple
         if (rotation == 0):
             shape_l1.append(pygame.Rect(x, y, 20, 20))
             shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
@@ -59,7 +59,7 @@ def draw_shape(x, y, current_shape, rotation, next_shape):
     
     # reverse L
     if (current_shape == 2):
-        color = green #orange
+        color = orange
         if (rotation == 0):
             shape_l1.append(pygame.Rect(x, y, 20, 20))
             shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
@@ -87,7 +87,7 @@ def draw_shape(x, y, current_shape, rotation, next_shape):
     
     # I shape
     if (current_shape == 3):
-        color = green #cyan
+        color = cyan
         if (rotation == 0):
             shape_l1.append(pygame.Rect(x, y, 20, 20))
             shape_l1.append(pygame.Rect(x, y-20, 20, 20))
@@ -112,7 +112,7 @@ def draw_shape(x, y, current_shape, rotation, next_shape):
     
     # O shape
     if (current_shape == 4):
-        color = green #yellow
+        color = yellow
         shape_l1.append(pygame.Rect(x, y, 20, 20))
         shape_l1.append(pygame.Rect(x, y-20, 20, 20))
         shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
@@ -120,7 +120,7 @@ def draw_shape(x, y, current_shape, rotation, next_shape):
    
     # Z shape
     if (current_shape == 5):
-        color = green #red
+        color = red
         if (rotation == 0):
             shape_l1.append(pygame.Rect(x, y-20, 20, 20))
             shape_l1.append(pygame.Rect(x, y, 20, 20))
@@ -171,7 +171,7 @@ def draw_shape(x, y, current_shape, rotation, next_shape):
     
     # L shape
     if (current_shape == 7):
-        color = green #blue
+        color = blue
         if (rotation == 0):
             shape_l1.append(pygame.Rect(x+40, y, 20, 20))
             shape_l1.append(pygame.Rect(x + 20, y, 20, 20))
@@ -266,7 +266,7 @@ def line_clear(shape_y, perm_y, perm_color):
                 for j in range(len(perm_y[i])):
                     if(perm_y[i][j] == screen_y + line_val):
                         index.append(perm_y[i])
-                        #color_index.append(perm_color[i])
+                        color_index.append(perm_color[i])
             
 
             for i in index:
@@ -276,7 +276,11 @@ def line_clear(shape_y, perm_y, perm_color):
             # Removes the line from the perm array and color array
             for i in index:
                 perm_y.remove(i)
-            
+                print(i)
+                #perm_color.remove(i)
+            for i in color_index:
+            	perm_color.remove(i) 
+            	print(i)          
             # Moves blocks down after line clear
             for i in range(len(perm_y)): 
                 if(perm_y[i][1] <= screen_y + line_val):
@@ -487,7 +491,7 @@ def game_loop():
 
         # Drawing stored blocks (blocks that have been dropped)
         for i in range(len(shape_perm)):
-            pygame.draw.rect(screen, green, shape_perm[i])
+            pygame.draw.rect(screen, perm_color[i], shape_perm[i])
         
         pygame.display.flip()
         clock.tick(fps)
@@ -499,3 +503,6 @@ def main():
     game_loop()
 
 main()
+
+
+
