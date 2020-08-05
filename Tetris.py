@@ -247,7 +247,6 @@ def line_clear(shape_y, perm_y, perm_color):
     count = 0
     y_val = 0
     index = []
-    color_index = []
     line_val = -20
     line_pos = 0
     check = False
@@ -255,7 +254,7 @@ def line_clear(shape_y, perm_y, perm_color):
     while line_val > -380:
         count = 0
         for i in perm_y:
-            if i[1] == screen_y + line_val:
+            if i[0][1] == screen_y + line_val:
                 count+=1 # This variable tracks how many blocks are on a line
 
         #if there are 10 blocks on the row, delete it
@@ -264,27 +263,24 @@ def line_clear(shape_y, perm_y, perm_color):
             print("line clear")
             for i in range(len(perm_y)):
                 for j in range(len(perm_y[i])):
-                    if(perm_y[i][j] == screen_y + line_val):
+                    if(perm_y[i][0][j] == screen_y + line_val):
                         index.append(perm_y[i])
-                        color_index.append(perm_color[i])
+                        
             
 
             for i in index:
-                i[0] += 20
-                i[1] += 20
+                i[0][0] += 20
+                i[0][1] += 20
             
             # Removes the line from the perm array and color array
             for i in index:
                 perm_y.remove(i)
                 print(i)
-                #perm_color.remove(i)
-            for i in color_index:
-            	perm_color.remove(i) 
-            	print(i)          
+                 
             # Moves blocks down after line clear
             for i in range(len(perm_y)): 
-                if(perm_y[i][1] <= screen_y + line_val):
-                    perm_y[i][1] = perm_y[i][1] + 20                     
+                if(perm_y[i][0][1] <= screen_y + line_val):
+                    perm_y[i][0][1] = perm_y[i][0][1] + 20                     
             
         line_val=line_val - 20
         line_pos+=1
@@ -340,7 +336,7 @@ def collision_check(shape, perm):
         shape_y.append((shape[i][0],shape[i][1]))
 
     for i in range(len(perm)):
-           perm_y.append((perm[i][0], perm[i][1]))
+           perm_y.append((perm[i][0][0], perm[i][0][1]))
     
     # These variables check for left or right bound checks (The screen borders)
     b_check_l = bound_check_l(shape_y)
@@ -472,8 +468,8 @@ def game_loop():
         # Checking for a block collision
         if(coll_check[0]):
             for i in range(len(shape)):
-                shape_perm.append(shape[i])
-                perm_color.append(color)
+                shape_perm.append((shape[i], color));
+               
 
             start_y = 0
             start_x = 80
@@ -491,7 +487,7 @@ def game_loop():
 
         # Drawing stored blocks (blocks that have been dropped)
         for i in range(len(shape_perm)):
-            pygame.draw.rect(screen, perm_color[i], shape_perm[i])
+            pygame.draw.rect(screen, shape_perm[i][1], shape_perm[i][0])
         
         pygame.display.flip()
         clock.tick(fps)
