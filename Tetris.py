@@ -487,7 +487,12 @@ def game_loop():
 
         # Drawing stored blocks (blocks that have been dropped)
         for i in range(len(shape_perm)):
-            pygame.draw.rect(screen, shape_perm[i][1], shape_perm[i][0])
+            pygame.draw.rect(screen, shape_perm[i][1], shape_perm[i][0])     
+            if(shape_perm[i][0][1] <= 0):
+            	print(shape_perm[i])
+            	print("game lost")
+            	running = False
+            
         
         pygame.display.flip()
         clock.tick(fps)
