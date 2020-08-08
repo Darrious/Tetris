@@ -393,6 +393,7 @@ def game_loop():
     clock = pygame.time.Clock()
     count = 0
     frame = 0
+    frame_control = 9
 
     
     #Draw right border background
@@ -477,10 +478,12 @@ def game_loop():
             next_shape = shape_picker()
             rotation = 0
             fps = 8
+            if(frame_control > 1):
+                frame_control -= 0.25
         
         # We use this to control the speed of block fall
         frame +=1
-        if(frame % 9 == 0):
+        if(frame % frame_control == 0):
             start_y += 20
         
 
