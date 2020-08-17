@@ -10,6 +10,7 @@ screen_x = 200
 screen_y = 400
 screen_x_bord = 275
 
+
 shape_perm = []
 perm_color = []
 orange = (240, 120, 40)
@@ -28,7 +29,9 @@ def shape_picker():
 def draw_shape(x, y, current_shape, rotation, next_shape):
     shape_l1 = []
     next_prev = []
+    next_col = (0, 0, 0)
     global color
+   
     # W shape
     if (current_shape == 1):
         color = purple
@@ -204,44 +207,57 @@ def draw_shape(x, y, current_shape, rotation, next_shape):
         next_prev.append(pygame.Rect(240, 40, prev_size, prev_size))
         next_prev.append(pygame.Rect(250, 40, prev_size, prev_size))
         next_prev.append(pygame.Rect(240, 30, prev_size, prev_size))
+        next_col = purple
+
 
     if(next_shape==2):   
         next_prev.append(pygame.Rect(230, 20, prev_size, prev_size))
         next_prev.append(pygame.Rect(230, 30, prev_size, prev_size))
         next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
         next_prev.append(pygame.Rect(220, 40, prev_size, prev_size))
+        next_col = yellow
+
 
     if(next_shape==3):     
         next_prev.append(pygame.Rect(230, 10, prev_size, prev_size))
         next_prev.append(pygame.Rect(230, 20, prev_size, prev_size))
         next_prev.append(pygame.Rect(230, 30, prev_size, prev_size))
         next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
+        next_col = cyan
+
 
     if(next_shape==4):     
         next_prev.append(pygame.Rect(230, 30, prev_size, prev_size))
         next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
         next_prev.append(pygame.Rect(240, 30, prev_size, prev_size))
         next_prev.append(pygame.Rect(240, 40, prev_size, prev_size))
+        next_col = yellow
+
 
     if(next_shape==5):     
         next_prev.append(pygame.Rect(240, 40, prev_size, prev_size))
         next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
         next_prev.append(pygame.Rect(230, 30, prev_size, prev_size))
         next_prev.append(pygame.Rect(220, 30, prev_size, prev_size))
+        next_col = red
+
 
     if(next_shape==6):     
         next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
         next_prev.append(pygame.Rect(240, 40, prev_size, prev_size))
         next_prev.append(pygame.Rect(240, 30, prev_size, prev_size))
         next_prev.append(pygame.Rect(250, 30, prev_size, prev_size))
+        next_col = green
+
 
     if(next_shape==7):     
         next_prev.append(pygame.Rect(230, 20, prev_size, prev_size))
         next_prev.append(pygame.Rect(230, 30, prev_size, prev_size))
         next_prev.append(pygame.Rect(230, 40, prev_size, prev_size))
         next_prev.append(pygame.Rect(240, 40, prev_size, prev_size))
-    
-    return shape_l1, next_prev
+        next_col = blue
+
+    return shape_l1, next_prev, next_col
 
 def line_clear(shape_y, perm_y, perm_color):
     count = 0
@@ -406,7 +422,7 @@ def game_loop():
 
         shape = draw_shape(start_x, start_y, current_shape, rotation, next_shape)[0]
         next_prev = draw_shape(start_x, start_y, current_shape, rotation, next_shape)[1]
-
+        next_col =  draw_shape(start_x, start_y, current_shape, rotation, next_shape)[2]
         coll_check = collision_check(shape, shape_perm)
         
         # Check for line clears
@@ -453,9 +469,11 @@ def game_loop():
         #draw_grid(screen)
         pygame.draw.rect(screen, grey,(200,0, screen_x_bord-200, screen_y))
         
+        
+
         # Displays the next block preview
         for i in range(len(next_prev)):
-            pygame.draw.rect(screen, green, next_prev[i])
+            pygame.draw.rect(screen, next_col, next_prev[i])
 
         # Drawing shape and shap drop preview
         for i in range(len(shape)):
@@ -478,8 +496,8 @@ def game_loop():
             next_shape = shape_picker()
             rotation = 0
             fps = 8
-            if(frame_control > 1):
-                frame_control -= 0.25
+            #if(frame_control > 1):
+                #frame_control -= 0.25
         
         # We use this to control the speed of block fall
         frame +=1
@@ -492,7 +510,7 @@ def game_loop():
         for i in range(len(shape_perm)):
             pygame.draw.rect(screen, shape_perm[i][1], shape_perm[i][0])     
             if(shape_perm[i][0][1] <= 0):
-            	print(shape_perm[i])
+            	#print(shape_perm[i])
             	print("game lost")
             	running = False
             
