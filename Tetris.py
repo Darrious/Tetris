@@ -5,9 +5,9 @@ import random
 block_size = 20
 fps = 8
 
-screen_x = 200
+screen_x = 600
 screen_y = 400
-screen_x_bord = 275
+
 
 shape_perm = []
 perm_color = []
@@ -266,11 +266,11 @@ def line_clear(shape_y, perm_y, perm_color):
 
         # if there are 10 blocks on the row, delete it
         index = []
-        if (count >= 10):
+        if count >= 10:
             print("line clear")
             for i in range(len(perm_y)):
                 for j in range(len(perm_y[i])):
-                    if (perm_y[i][0][j] == screen_y + line_val):
+                    if perm_y[i][0][j] == screen_y + line_val:
                         index.append(perm_y[i])
 
             for i in index:
@@ -284,7 +284,7 @@ def line_clear(shape_y, perm_y, perm_color):
 
             # Moves blocks down after line clear
             for i in range(len(perm_y)):
-                if (perm_y[i][0][1] <= screen_y + line_val):
+                if perm_y[i][0][1] <= screen_y + line_val:
                     perm_y[i][0][1] = perm_y[i][0][1] + 20
 
         line_val = line_val - 20
@@ -297,7 +297,7 @@ def line_clear(shape_y, perm_y, perm_color):
 def bound_check_l(shape):
     for i in shape:
         # print("Shape x:", i[0])
-        if (i[0] - 20 == -20):
+        if (i[0] - 20 < 200):
             return True
 
     return False
@@ -307,7 +307,7 @@ def bound_check_l(shape):
 def bound_check_r(shape):
     for i in shape:
         # print("Shape x:", i[0])
-        if (i[0] + 20 == 200):
+        if (i[0] + 20 > 380):
             return True
 
     return False
@@ -367,10 +367,10 @@ def collision_check(shape, perm):
 # This draws a background grid
 def draw_grid(screen):
     for x in range(screen_x):
-        for y in range(screen_y):
-            rect = pygame.Rect(x * block_size, y * block_size,
+
+        rect = pygame.Rect(x * block_size, 380,
                                block_size, block_size)
-            pygame.draw.rect(screen, (80, 80, 80), rect, 1)
+        pygame.draw.rect(screen, (80, 80, 80), rect, 1)
 
 
 def game_loop():
@@ -379,21 +379,26 @@ def game_loop():
     pygame.init()
 
     # Setting up variables
-    screen = pygame.display.set_mode([screen_x_bord, screen_y])
+    screen = pygame.display.set_mode([screen_x, screen_y])
     running = True
     current_shape = shape_picker()
     next_shape = shape_picker()
     rotation = 0
 
-    start_x = 80
+    start_x = 300
+    start_val = start_x
     start_y = 0
     clock = pygame.time.Clock()
     count = 0
     frame = 0
     frame_control = 9
     shape_pre = []
+
     # Draw right border background
-    pygame.draw.rect(screen, grey, (50, 50, 50, 400))
+    #pygame.draw.rect(screen, grey, (50, 50, 50, 400))
+
+    # Draw left border background
+    #pygame.draw.rect(screen, grey, (50, 50, 50, 400))
 
     # The game loop
     while running:
@@ -443,7 +448,7 @@ def game_loop():
                         shape_perm.append((shape[i], color))
 
                     start_y = 0
-                    start_x = 80
+                    start_x = start_val
                     current_shape = next_shape
                     next_shape = shape_picker()
                     rotation = 0
@@ -451,12 +456,15 @@ def game_loop():
 
         # Fill background
         screen.fill((0, 0, 0))
-        # draw_grid(screen)
-        pygame.draw.rect(screen, grey, (200, 0, screen_x_bord - 200, screen_y))
+
+        draw_grid(screen)
+        pygame.draw.rect(screen, grey, (400, 0, screen_x - 100, screen_y))
+        pygame.draw.rect(screen, grey, (-200, -200, screen_x - 200, screen_y + 200))
+
 
         # Displays the next block preview
-        for i in range(len(next_prev)):
-            pygame.draw.rect(screen, next_col, next_prev[i])
+        #for i in range(len(next_prev)):
+            #pygame.draw.rect(screen, next_col, next_prev[i])
 
         # Drawing shape and shape drop preview
         for i in range(len(shape)):
@@ -476,7 +484,7 @@ def game_loop():
                 shape_perm.append((shape[i], color))
 
             start_y = 0
-            start_x = 80
+            start_x = start_val
             current_shape = next_shape
             next_shape = shape_picker()
             rotation = 0
