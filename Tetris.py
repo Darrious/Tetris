@@ -273,14 +273,15 @@ def line_clear(shape_y, perm_y, perm_color):
                     if perm_y[i][0][j] == screen_y + line_val:
                         index.append(perm_y[i])
 
-            for i in index:
-                i[0][0] += 20
-                i[0][1] += 20
+            #for i in index:
+               # i[0][0] += 20
+                #i[0][1] += 20
 
             # Removes the line from the perm array and color array
             for i in index:
-                perm_y.remove(i)
-                print(i)
+                if perm_y.count(i) > 0:
+                    perm_y.remove(i)
+                    print(i)
 
             # Moves blocks down after line clear
             for i in range(len(perm_y)):
